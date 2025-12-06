@@ -29,6 +29,7 @@ This project demonstrates full-stack development using Node.js + Express + SQLit
   Database Schema
 
 🚀 Features
+  
   Feature 1 – Plugin Library
 
     A searchable, filterable library of Electron plugins.
@@ -77,27 +78,28 @@ This project demonstrates full-stack development using Node.js + Express + SQLit
     faqs(id, question, answer)
 
 🛠️ Tech Stack
-    Layer	Technology
-    Frontend	HTML5, CSS3, JavaScript
-    Backend	Node.js, Express.js
-    Database	SQLite
-    Tools	Curl/Postman for API testing
+    
+    Frontend	  HTML5, CSS3, JavaScript
+    Backend	      Node.js, Express.js
+    Database	  SQLite
+    Tools	      Curl/Postman for API testing
 
 📁 Project Structure
+
 final_project/
-│
-├── backend/
-│   ├── server.js          # Express server + API routes
-│   └── database.db        # SQLite database (auto-created)
-│
-├── public/
-│   ├── index.html         # Homepage
-│   ├── plugins.html       # Plugin Library
-│   ├── issues.html        # Issue Dashboard
-│   ├── faq.html           # FAQ Page
-│   └── styles.css         # Shared stylesheet
-│
-└── README.md              # Project Documentation
+
+    backend/
+      server.js          # Express server + API routes
+      database.db        # SQLite database (auto-created)
+
+    public/
+      index.html         # Homepage
+      plugins.html       # Plugin Library
+      issues.html        # Issue Dashboard
+      faq.html           # FAQ Page
+      styles.css         # Shared stylesheet
+
+    README.md            # Project Documentation
 
 🧩 Installation & Setup
   1️⃣ Install Node.js
@@ -126,62 +128,60 @@ final_project/
     http://localhost:4000/index.html
 
 📡 API Documentation
-GET /api/plugins
-
-  Returns all plugins or filtered results.
+  GET /api/plugins
   
-  Query parameters supported:
-  tag, minRating, search
+    Returns all plugins or filtered results.
+    
+    Query parameters supported:
+    tag, minRating, search
 
-POST /api/plugins
-
-  Add a new plugin.
+  POST /api/plugins
   
-  {
-    "name": "Example Plugin",
-    "author": "Jane Doe",
-    "version": "1.0.0",
-    "rating": 4.5,
-    "tags": ["debug", "UI"]
-  }
+    Add a new plugin.
+    
+    {
+      "name": "Example Plugin",
+      "author": "Jane Doe",
+      "version": "1.0.0",
+      "rating": 4.5,
+      "tags": ["debug", "UI"]
+    }
 
-GET /api/issues
+  GET /api/issues
+    
+    Supports filtering:
+    
+    /api/issues?severity=high&status=open
+
+  POST /api/issues
   
-  Supports filtering:
+    Submit a new issue.
+    
+    {
+      "title": "Crash when opening settings",
+      "severity": "high",
+      "status": "open"
+    }
+
+  GET /api/faqs
   
-  /api/issues?severity=high&status=open
-
-POST /api/issues
-
-  Submit a new issue.
+    Returns all FAQs.
   
-  {
-    "title": "Crash when opening settings",
-    "severity": "high",
-    "status": "open"
-  }
-
-GET /api/faqs
-
-  Returns all FAQs.
-
-POST /api/faqs
-  
-  Used to insert new FAQ entries.
-  
-  {
-    "question": "How do I run the project?",
-    "answer": "Use node backend/server.js and open localhost:4000."
-  }
+  POST /api/faqs
+    
+    Used to insert new FAQ entries.
+    
+    {
+      "question": "How do I run the project?",
+      "answer": "Use node backend/server.js and open localhost:4000."
+    }
 
 🗄️ Database Schema
-plugins(id, name, author, version, rating)
-tags(id, name)
-plugin_tags(plugin_id, tag_id)
+    
+    plugins (id, name, author, version, rating)
+    tags(id, name)
+    plugin_tags(plugin_id, tag_id)
+    issues(id, title, severity, status, created_at)
+    faqs(id, question, answer)
 
-issues(id, title, severity, status, created_at)
-
-faqs(id, question, answer)
-
-
-SQLite file is automatically generated as database.db.
+    SQLite file is automatically generated as database.db.
