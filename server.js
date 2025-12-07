@@ -126,7 +126,7 @@ function initializeDatabase() {
         title TEXT
         severity TEXT
         status TEXT
-        created_at TEXT
+        created_at DATETIME DEFAULT CURRENT_TIMESTAMP
       );
       `,
       (err) => {
@@ -182,7 +182,7 @@ initializeDatabase();
 app.get("/api/plugins", (req, res) => {
   const query = 'SELECT * FROM plugins';
 
-  db,all(query, [], (err,rows) {
+  db.all(query, [], (err,rows) => {
     if (err) {
       console.error("Database error: ", err);
       return res.status(500).json({error: "Failed to fetch plugins"});
@@ -218,14 +218,88 @@ app.post("/api/plugins", (req, res) => {
 });
 
 app.get("/api/tags", (req, res) => {
-  const query = 'SELECT * FROM plugins';
+  const query = 'SELECT * FROM tags';
 
-  db,all(query, [], (err,rows) {
+  db.all(query, [], (err,rows) => {
     if (err) {
       console.error("Database error: ", err);
-      return res.status(500).json({error: "Failed to fetch plugins"});
+      return res.status(500).json({error: "Failed to fetch tags"});
     }
     res.json(rows);
+  });
+});
+
+app.get("/api/issues", (req, res) => {
+  const query = 'SELECT * FROM issues';
+
+  db.all(query, [], (err,rows) => {
+    if (err) {
+      console.error("Database error: ", err);
+      return res.status(500).json({error: "Failed to fetch issues"});
+    }
+    res.json(rows);
+  });
+});
+
+app.post("/api/issues", (req, res) => {
+  
+  const {title, severity, status, created_at} = req.body;
+
+  if(!title|| !severity || !status) {
+    return res.status(400).json({error: "Please complete all fields to add issue"})
+  }
+
+  const query = `
+    INSERT INTO issues (title, severity, status, created_at)
+    VALUES (?,?,?,?)
+    
+  `;
+
+  db.run(query, [title, severity, status, created_at], function (err) {
+    if (err) {
+      console.error("Insertion error: ", err);
+      return res.status(500).json({error: "Failed to add issue"});
+    }
+    res.status(201).json({
+      message: "Issue successfully added",
+      
+    });
+  });
+});
+app.get("/api/faqs", (req, res) => {
+  const query = 'SELECT * FROM faqs';
+
+  db.all(query, [], (err,rows) => {
+    if (err) {
+      console.error("Database error: ", err);
+      return res.status(500).json({error: "Failed to fetch faqs"});
+    }
+    res.json(rows);
+  });
+});
+app.post("/api/faqs", (req, res) => {
+  
+  const {question, answer} = req.body;
+
+  if(!question|| !answer) {
+    return res.status(400).json({error: "Please complete all fields to add FAQ"})
+  }
+
+  const query = `
+    INSERT INTO faqs (question, answer)
+    VALUES (?,?)
+    
+  `;
+
+  db.run(query, [question, answer], function (err) {
+    if (err) {
+      console.error("Insertion error: ", err);
+      return res.status(500).json({error: "Failed to add faq"});
+    }
+    res.status(201).json({
+      message: "FAQ successfully added",
+      
+    });
   });
 });
 
