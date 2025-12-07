@@ -192,18 +192,20 @@ app.get("/api/plugins", (req, res) => {
 });
 
 app.post("/api/plugins", (req, res) => {
-  const {name, author, version, rating} = req.body;
+  const {name, author, version, rating, tname} = req.body;
 
-  if(!name || !author || !version || !rating) {
+  if(!name || !author || !version || !rating || !tname) {
     return res.status(400).json({error: "Please complete all fields to add plugin"})
   }
 
   const query = `
     INSERT INTO plugins (name, author, version, rating)
     VALUES (?,?,?,?)
+    INSERT INTO tags (tname)
+    VALUES (?)
   `;
 
-  db.run(query, [name, author, version, rating], function (err) {
+  db.run(query, [name, author, version, rating, tname], function (err) {
     if (err) {
       console.error("Insertion error: ", err);
       return res.status(500).json({error: "Failed to add plugin"});
